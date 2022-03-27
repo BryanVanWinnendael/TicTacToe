@@ -1,12 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+import { ChakraProvider } from '@chakra-ui/react'
+import { mode } from '@chakra-ui/theme-tools';
+import { extendTheme } from "@chakra-ui/react"
+import { CookiesProvider } from "react-cookie"
+
+
+const styles = {
+  global: props => ({
+    body: {
+      bg: mode('#EEEFF6', '#343142')(props),
+    },
+  }),
+};
+
+const theme = extendTheme({
+  styles
+})
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <CookiesProvider>
+      <ChakraProvider theme={theme}>
+        <App />
+      </ChakraProvider>
+    </CookiesProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
@@ -14,4 +33,4 @@ ReactDOM.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
