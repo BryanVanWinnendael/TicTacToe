@@ -34,7 +34,7 @@ function Lobby(props) {
 
     useEffect(() =>{
     
-        Axios.get('http://localhost:3002/api/get-all').then((response) =>{
+        Axios.get('https://apitictactoegame.herokuapp.com/api/get-all').then((response) =>{
             if(componentMounted){
                 setRooms(response.data)
             }

@@ -111,7 +111,7 @@ function GameRoom(props) {
 
     const fetchOnline = () =>{
         if(componentMounted){
-            Axios.get('http://localhost:3002/api/get-active-users',{
+            Axios.get('https://apitictactoegame.herokuapp.com/api/get-active-users',{
                 params: {
                    room
                   }

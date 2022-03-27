@@ -14,14 +14,14 @@ export function SocketProvider({children,id}) {
     const leaveSocketRoom = () =>{
         socket.close()
         var newSocket
-        newSocket = io("http://localhost:3001")
+        newSocket = io("https://apitictactoegame.herokuapp.com/")
         setSocket(newSocket)
     }
 
 
     useEffect(() =>{
         var newSocket
-        newSocket = io("http://localhost:3001")
+        newSocket = io("https://apitictactoegame.herokuapp.com/")
         setSocket(newSocket)
     
         return () => newSocket.close()
