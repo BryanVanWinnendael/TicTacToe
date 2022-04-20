@@ -322,8 +322,10 @@ function GameRoom(props) {
             {opponent && (
                 <Heading m="2">Playing against {opponent}</Heading>
             )}
-
-            <Text color={colorText} m="2" fontSize='2xl'>You are {pattern}</Text>
+            
+            {opponent && (
+                <Text color={colorText} m="2" fontSize='2xl'>You are {pattern}</Text>
+            )}
 
             {!opponent && (
                 <Text mt="10" fontWeight="bold" fontSize='2xl'>Waiting for a player to join... </Text>
