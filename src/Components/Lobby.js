@@ -48,10 +48,10 @@ function Lobby(props) {
            
             <Heading mt="5">Hi, {cookies.user}</Heading>
             <Text mt="2" color={useColorModeValue('gray.600', 'gray.300')} fontSize='xl'>Create a room or join one!</Text>
-            <FormControl mt="5">
+            <form mt="5">
                 <Input onChange={(e) => setRoomName(e.target.value)} placeholder='Room name' mb="5"/>
-                <Button onClick={() =>{createRoom(roomName)}} colorScheme='blue' w="full">Create room</Button>
-            </FormControl>
+                <Button onClick={() =>{createRoom(roomName)}} colorScheme='blue' w="full" type="submit">Create room</Button>
+            </form>
             {rooms.length !== 0 && (
                 <Text mt="5" fontWeight="bold" fontSize='2xl' color={colorText}>Rooms:</Text>
             )}
