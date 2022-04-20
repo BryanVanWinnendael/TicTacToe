@@ -78,6 +78,11 @@ function GameRoom(props) {
                 setWinner(giveWinner(newBoard)) 
                 return
             }
+            else if(isBoardFull(newBoard)){
+                onOpen()
+                setWinner("draw")
+                return
+            }
             setTurn(turn)
             setBoard(newBoard)
         })
@@ -167,7 +172,8 @@ function GameRoom(props) {
           });
     }
 
-    const handleSubmitChat = () =>{
+    const handleSubmitChat = (e) =>{
+        e.preventDefault()
         if(chatText === "") return
         displayMessage(chatText,"you")
         setChatText("")
@@ -218,12 +224,25 @@ function GameRoom(props) {
             onOpen()
             setWinner(giveWinner(newBoard)) 
         } 
-           
+        else if(isBoardFull(board)){
+            onOpen()
+            setWinner("draw")
+        }
         socket.emit("turn",{newBoard,room,turn:opponent})
     }
 
     function equals3(a, b, c){
         return a.player === b.player && b.player === c.player && a.player !== ""
+    }
+
+    // check if board is full
+    function isBoardFull(board){
+        for(let i of board){
+            for(let j of i){
+                if(j.player === "") return false
+            }
+        }
+        return true
     }
     
     function giveWinner(board){
@@ -253,6 +272,9 @@ function GameRoom(props) {
       return winner?.player
     }
 
+   
+
+
 
 
     return (
@@ -266,11 +288,14 @@ function GameRoom(props) {
                 <AlertDialogOverlay />
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        {winner && winner === pattern && (
+                        {winner && winner === pattern && winner !== "draw" &&(
                             <Text>You won!</Text>
                         )}
-                        {winner && winner !== pattern && (
+                        {winner && winner !== pattern && winner !== "draw" && (
                             <Text>{opponent} won!</Text>
+                        )}
+                        { winner === "draw" && (
+                            <Text>Draw!</Text>
                         )}
                     </AlertDialogHeader>
                     <AlertDialogBody>
@@ -297,6 +322,8 @@ function GameRoom(props) {
             {opponent && (
                 <Heading m="2">Playing against {opponent}</Heading>
             )}
+
+            <Text color={colorText} m="2" fontSize='2xl'>You are {pattern}</Text>
 
             {!opponent && (
                 <Text mt="10" fontWeight="bold" fontSize='2xl'>Waiting for a player to join... </Text>
@@ -327,11 +354,11 @@ function GameRoom(props) {
                         )
                     })}
                     </Grid> 
-                     <Box ml={isLargerThan730 ? '10' : '0'} mt="5">
+                     <form ml={isLargerThan730 ? '10' : '0'} mt="5">
                         <Input value={chatText} onChange={(e) => setChatText(e.target.value)} placeholder='Text' mb="5"/>
-                        <Button onClick={handleSubmitChat} colorScheme='blue' w="full">send text</Button>
+                        <Button onClick={handleSubmitChat} colorScheme='blue' w="full" type="submit">send text</Button>
                         <Box ref={messageEl} id='chat' maxHeight="150px" overflowY="scroll" mt="5"></Box>
-                    </Box>
+                    </form>
                 </Flex>
                 
             )}
